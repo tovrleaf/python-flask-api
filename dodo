@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Docker Do (dodo)
+
+set -eu
+
+function err() {
+  echo "$0 <build|rebuild|start|stop>" && exit 1
+}
+
+test $# -ne 1 && err
+
+cd "$(dirname $0)"
+
+case $1 in
+  build)
+    docker-compose build
+    docker-compose create
+    ;;
+  start)
+    docker-compose start
+    echo "Start surfing at http://0.0.0.0/"
+    ;;
+  stop)
+    docker-compose stop
+    docker-compose rm -f
+    ;;
+
+  rebuild)
+    ./$0 stop
+    ./$0 build
+    ./$0 start
+    ;;
+  *)
+    err
+esac
+
