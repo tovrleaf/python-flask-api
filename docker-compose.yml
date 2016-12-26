@@ -1,0 +1,19 @@
+version: "2"
+services:
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+
+  app:
+    build: ./app
+    restart: always
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/usr/src/app
