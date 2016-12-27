@@ -1,13 +1,5 @@
 version: "2"
 services:
-  nginx:
-    build: ./nginx
-    restart: always
-    ports:
-      - "80:80"
-    depends_on:
-      - app
-
   app:
     build: ./app
     restart: always
@@ -17,3 +9,18 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/usr/src/app
+
+  front:
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+
+  apitest:
+    build: ./test
+    volumes:
+      - ./test:/tests
+    depends_on:
+      - front

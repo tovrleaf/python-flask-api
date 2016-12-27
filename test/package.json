@@ -1,0 +1,12 @@
+{
+    "name": "run-tests",
+    "scripts": {
+      "test": "./node_modules/mocha/bin/mocha run-tests.js"
+
+    },
+    "dependencies": {
+      "mocha": "3.2.0",
+      "chai": "3.5.0",
+      "supertest": "2.0.1"
+    }
+}
