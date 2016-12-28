@@ -1,5 +1,19 @@
-from flask import Flask, request, jsonify
+from flask import Flask
+from flask import request, jsonify
+from config import BaseConfig
+from flask_sqlalchemy import SQLAlchemy
+
+
 app = Flask(__name__)
+app.config.from_object(BaseConfig)
+db = SQLAlchemy(app)
+
+
+from model_article import *
+# Instead of calling method below, I'm creating db+credentials at Docker start up
+# in ./mariadb/docker-entrypoint-initdb.d/create_tables.sql
+#db.create_all()
+
 
 article = {
     'id': 1,
@@ -10,12 +24,14 @@ article = {
 # Retrieve a list of articles
 @app.route('/article', methods = ['GET'])
 def list_articles():
-    return '{}';
+    #articles = Article.query.order_by(Post.id.desc()).all()
+    articles = Article.query.all()
+    return jsonify(articles)
 
 # Retrieve article
 @app.route('/article/<int:articleId>', methods = ['GET'])
 def get_article(articleId):
-    return jsonify([article]);
+    return jsonify([article])
 
 # Create article
 @app.route('/article', methods = ['POST'])
