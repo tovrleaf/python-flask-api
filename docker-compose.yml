@@ -9,6 +9,20 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
+    links:
+      - "db:db"
+    depends_on:
+      - db
+
+  db:
+    build: ./mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   front:
     build: ./nginx
