@@ -15,7 +15,7 @@ cd "$(dirname $0)"
 case $1 in
   build)
     docker-compose build
-    docker-compose create
+    #docker-compose create
     ;;
   start)
     docker-compose start
@@ -27,8 +27,7 @@ case $1 in
     ;;
 
   test)
-    #docker-compose run apitest npm install
-    docker-compose run apitest npm test
+    docker-compose exec apitest npm test
     ;;
 
   rebuild)
