@@ -4,10 +4,10 @@ supertest = require('supertest'),
 api = supertest('http://front');
 
 describe('API', function () {
-  it('should be able to delete the whole catalog', function(done) {
-      // FOR TESTING PURPOSES ONLY to run test from same set-up without using fixtures
-      done();
-  });
+  //it('should be able to delete the whole catalog', function(done) {
+  //    // FOR TESTING PURPOSES ONLY to run tests from same set-up without using fixtures
+  //    done();
+  //});
 
     /*
   it('should get empty list of articles', function(done) {
@@ -18,15 +18,15 @@ describe('API', function () {
     });
   });
 
-
   it('should be able to add an article', function(done) {
     api.post('/article')
-    .send({content: 'foo'}).end(function(err, res) {
+    .send({topic2: 'foo'}).end(function(err, res) {
       expect(res.statusCode).to.equal(200);
       expect(res.text).to.equal('foo');
       done();
     });
   });
+    /*
 
   it('should be not add article with false data', function(done) {
       done();
