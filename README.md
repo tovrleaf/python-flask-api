@@ -1,6 +1,8 @@
 Commandline
 ===========
 
+dodo: Docker Do
+
 ## To get started
 `
 $ ./dodo build

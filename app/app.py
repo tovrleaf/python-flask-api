@@ -34,12 +34,11 @@ def add_article():
     db.session.commit()
     return jsonify(article.to_json()), 201 # Created
 
-
 # Retrieve a list of articles
 @app.route('/articles', methods = ['GET'])
 def list_articles():
     articles = Article.query.order_by(Article.id.asc()).all()
-    return jsonify(article = [a.to_json() for a in articles])
+    return jsonify(article = [a.to_json() for a in articles]), 200
 
 # Retrieve article
 @app.route('/articles/<int:articleId>', methods = ['GET'])
@@ -52,7 +51,24 @@ def get_article(articleId):
 # Modify article
 @app.route('/articles/<int:articleId>', methods = ['PUT'])
 def mod_article(articleId):
-    return 'update';
+    article = Article.query.filter_by(id=articleId).first();
+    if article is None:
+        abort(404)
+
+    isChanged = False;
+    data = request.json
+    if 'topic' in data and data['topic'] != article.topic:
+        isChanged = True
+        article.topic = data['topic']
+    if 'text' in data and data['text'] != article.text:
+        isChanged = True
+        article.text = data['text']
+
+    if isChanged == False:
+        return '', 304 # Not Modified
+
+    db.session.commit()
+    return jsonify(article.to_json()), 200
 
 @app.route('/articles/<int:articleId>', methods = ['DELETE'])
 def del_article(articleId):
@@ -66,11 +82,12 @@ def del_article(articleId):
 # FOR TESTING PURPOSES ONLY to run tests from same set-up without using fixtures
 @app.route('/articles', methods = ['DELETE'])
 def del_all_article():
+    db.session.commit();
     num_rows = db.session.query(Article).delete()
     db.session.commit()
     if num_rows > 0:
         return jsonify({'count': num_rows}), 200
-    return '', 204 # No Content
+    return jsonify(''), 204 # No Content
 
 
 if __name__ == '__main__':
