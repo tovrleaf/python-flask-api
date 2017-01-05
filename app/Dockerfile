@@ -1,7 +1,7 @@
 FROM python:3.4.5-wheezy
 
 RUN mkdir /app
-ADD . /app
+ADD ./requirements.txt /app
 WORKDIR /app
 
 RUN pip install -r requirements.txt

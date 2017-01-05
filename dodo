@@ -15,7 +15,6 @@ cd "$(dirname $0)"
 case $1 in
   build)
     docker-compose build
-    docker-compose create
     ;;
   start)
     docker-compose start
