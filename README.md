@@ -1,3 +1,7 @@
+# Activate python virtualenv for docker-compose
+
+source bin/virtualenv
+
 Commandline
 ===========
 
