@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+cd "$(dirname $0)/.."
+
+opts='-f docker-compose.yml -f docker-compose.test.yml'
+
+docker-compose ${opts} up -d apitest
+docker-compose ${opts} exec apitest npm test

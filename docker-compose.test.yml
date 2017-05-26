@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  apitest:
+    build: ./test
+    volumes:
+      - ./test:/tests
+    depends_on:
+      - app

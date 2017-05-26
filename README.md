@@ -1,29 +1,11 @@
 # Activate python virtualenv for docker-compose
 
-source bin/virtualenv
+`source bin/virtualenv`
 
-Commandline
-===========
+# Start dev environment
 
-dodo: Docker Do
+`make dev`
 
-## To get started
-`
-$ ./dodo build
-$ ./dodo start
-`
+# Run tests
 
-## Run tests
-`
-$ ./dodo test
-`
-
-### Rebuild
-`
-$ ./dodo rebuild
-`
-
-### Stop it
-`
-$ ./dodo stop
-`
+`make test`
