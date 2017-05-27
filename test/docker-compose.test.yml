@@ -2,8 +2,28 @@ version: "3"
 
 services:
   apitest:
-    build: ./test
+    build: .
     volumes:
-      - ./test:/tests
+      - .:/tests
     depends_on:
       - app
+
+  app:
+    build: ../app
+    volumes:
+      - ../app/src:/app/src
+    depends_on:
+      - db
+      - front
+
+  db:
+    image: mariadb:10.1.20
+    restart: always
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ../database/data:/docker-entrypoint-initdb.d
+
+  front:
+    build: ../nginx
+    restart: always
