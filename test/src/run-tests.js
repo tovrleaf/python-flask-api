@@ -8,22 +8,6 @@ describe('API', function () {
 
   var articleId;
 
-  before(function() {
-    // reset all
-    api.delete('/articles').end(function() {
-        console.log('    > Deleted the whole catalog');
-    });
-  });
-
-  it('should be able to delete the whole catalog', function(done) {
-    // FOR TESTING PURPOSES ONLY to run tests from same set-up without using fixtures
-    api.delete('/articles').end(function(err, res) {
-      expect(res.statusCode).to.equal(204);
-      expect(res.text).to.equal('');
-      done();
-    });
-  });
-
   it('should get empty list of articles', function(done) {
     api.get('/articles').end(function(err, res) {
       expect(res.statusCode).to.equal(200);
@@ -151,18 +135,4 @@ describe('API', function () {
       });
   });
 
-  it('should be able to delete a collection of articles', function(done) {
-    var article = {'topic': 'topic', 'text': 'text'};
-    // add few articles to delete them all
-    api.post('/articles').send(article).end(function (err, res) {
-      api.post('/articles').send(article).end(function (err, res) {
-        api.delete('/articles').end(function(err, res) {
-          expect(res.statusCode).to.equal(200);
-          var content = JSON.parse(res.text);
-          expect(content).to.deep.equal({'count': 2});
-          done();
-        });
-      });
-    });
-  });
 });

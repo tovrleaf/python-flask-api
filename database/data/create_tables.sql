@@ -1,6 +1,6 @@
-CREATE DATABASE flask_database;
+CREATE DATABASE IF NOT EXISTS flask_database;
 
-CREATE USER 'flask_user'@'%' IDENTIFIED BY 'flask_password';
+CREATE USER IF NOT EXISTS 'flask_user'@'%' IDENTIFIED BY 'flask_password';
 
 GRANT ALL PRIVILEGES ON flask_database.* TO 'flask_user'@'%';
 

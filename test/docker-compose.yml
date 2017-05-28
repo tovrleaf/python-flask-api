@@ -4,7 +4,7 @@ services:
   apitest:
     build: .
     volumes:
-      - .:/tests
+      - ./src:/tests/src
     depends_on:
       - app
 
@@ -12,6 +12,8 @@ services:
     build: ../app
     volumes:
       - ../app/src:/app/src
+    links:
+      - db:db
     depends_on:
       - db
       - front
@@ -23,6 +25,7 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - ../database/data:/docker-entrypoint-initdb.d
+      - ./fixtures:/fixtures
 
   front:
     build: ../nginx
