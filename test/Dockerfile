@@ -1,6 +1,6 @@
 FROM node:7.3-wheezy
 
-RUN mkdir /tests
+RUN mkdir -p /tests/src
 COPY package.json /tests
 WORKDIR /tests
 

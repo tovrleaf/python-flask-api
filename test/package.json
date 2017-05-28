@@ -1,7 +1,7 @@
 {
     "name": "run-tests",
     "scripts": {
-      "test": "./node_modules/mocha/bin/mocha run-tests.js"
+      "test": "./node_modules/mocha/bin/mocha src/run-tests.js"
 
     },
     "dependencies": {
