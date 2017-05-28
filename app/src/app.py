@@ -10,9 +10,6 @@ db = SQLAlchemy(app)
 
 
 from model_article import *
-# Instead of calling method below, I'm creating db+credentials at Docker start up
-# in ./mariadb/docker-entrypoint-initdb.d/create_tables.sql
-#db.create_all()
 
 
 # Create article
@@ -30,8 +27,13 @@ def add_article():
     except ValueError as e:
         return abort(400, str(e)) # Bad Request
 
-    db.session.add(article)
-    db.session.commit()
+    try:
+        db.session.add(article)
+        db.session.commit()
+    except:
+        db.session.rollback()
+        raise
+
     return jsonify(article.to_json()), 201 # Created
 
 # Retrieve a list of articles
@@ -67,7 +69,12 @@ def mod_article(articleId):
     if isChanged == False:
         return '', 304 # Not Modified
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+        raise
+
     return jsonify(article.to_json()), 200
 
 @app.route('/articles/<int:articleId>', methods = ['DELETE'])
@@ -75,19 +82,14 @@ def del_article(articleId):
     article = Article.query.filter_by(id=articleId).first();
     if article is None:
         abort(404)
-    db.session.delete(article);
-    db.session.commit();
-    return '', 204 # No Content
+    try:
+        db.session.delete(article);
+        db.session.commit();
+    except:
+        db.session.rollback()
+        raise
 
-# FOR TESTING PURPOSES ONLY to run tests from same set-up without using fixtures
-@app.route('/articles', methods = ['DELETE'])
-def del_all_article():
-    db.session.commit();
-    num_rows = db.session.query(Article).delete()
-    db.session.commit()
-    if num_rows > 0:
-        return jsonify({'count': num_rows}), 200
-    return jsonify(''), 204 # No Content
+    return '', 204 # No Content
 
 
 if __name__ == '__main__':
