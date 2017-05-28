@@ -2,13 +2,11 @@
 
 cd "$(dirname $0)/../test"
 
-fixture=/docker-entrypoint-initdb.d/create_tables.sql
-
 docker-compose up -d apitest
 docker-compose exec db /fixtures/setup-fixtures.sh
 
 # fails at first time
 # ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2 "No such file or directory")
-# TODO wait for socket to come avaiable in a loop
+# TODO wait for socket to come available in a loop
 
 docker-compose exec apitest npm test
